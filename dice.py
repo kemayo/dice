@@ -34,7 +34,7 @@ def _compact(s):
 def parse(s):
     """Turns a dice string into a dice tuple
 
-    Example: ([6,6,6], 5) == parse('3d6+4')
+    Example: ([6,6,6], 4) == parse('3d6+4')
     
     Note that '-2d6' returns ((-6, -6), 0)
     """
@@ -122,8 +122,9 @@ def median_roll(d):
 
 def _cartesian(*args):
     """returns a generator that iterates over the cartesian product of the lists in *args
-
-"""
+    
+    Since python 2.6 is out now, this could be replaced with itertools.product
+    """
     if len(args) > 1:
         for item in args[0]:
             for rest in _cartesian(*args[1:]):
