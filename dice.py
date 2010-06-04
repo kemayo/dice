@@ -199,4 +199,11 @@ if __name__ == '__main__':
         rolls = sys.argv[1:]
         for dice in rolls:
             print "Rolling %s: %d" % (dice, roll(dice))
-
+            print "Max: %d" % max_roll(dice)
+            print "Min: %d" % min_roll(dice)
+            print "Median: %d" % median_roll(dice)
+            """print "Distribution:"
+            dist = distribution(dice)
+            for result in dist:
+                print result, dist[result]
+            """
