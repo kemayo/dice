@@ -196,15 +196,39 @@ def success(dice, target, n=1):
     return 1 - sum(_unsuccessful_choices(len(p), n, p_success))
 
 if __name__ == '__main__':
+    if len(sys.argv) > 1 and sys.argv[1].startswith('--'):
+        to_do = []
+        while len(sys.argv) > 1 and sys.argv[1].startswith('--'):
+            to_do.append(sys.argv.pop(1).lstrip('-'))
+    else:
+        to_do = ['roll', 'max', 'min', 'median']
     if len(sys.argv) > 1:
         rolls = sys.argv[1:]
         for dice in rolls:
-            print "Rolling %s: %d" % (dice, roll(dice))
-            print "Max: %d" % max_roll(dice)
-            print "Min: %d" % min_roll(dice)
-            print "Median: %d" % median_roll(dice)
-            """print "Distribution:"
-            dist = distribution(dice)
-            for result in dist:
-                print result, dist[result]
-            """
+            print "Dice:", dice
+            if 'roll' in to_do:
+                print " Rolled:", roll(dice)
+            if 'max' in to_do:
+                print " Max:", max_roll(dice)
+            if 'min' in to_do:
+                print " Min:", min_roll(dice)
+            if 'median' in to_do:
+                print " Median:", median_roll(dice)
+            if 'dist' in to_do:
+                print " Distribution:"
+                print "  Result  |    #"
+                dist = distribution(dice)
+                results = 0
+                for result in dist:
+                    print " %s|%s" % (str(result).ljust(8), str(dist[result]).rjust(5))
+                    results = results + dist[result]
+                print " Total   |%s" % str(results).rjust(5)
+    else:
+        print "dice.py [options] dice1 ... dice99"
+        print "options:"
+        print "    --roll: roll the dice"
+        print "    --max: maximum possible roll"
+        print "    --min: minimum possible roll"
+        print "    --median: median roll"
+        print "    --dist: distribution of results (crazy slow for lots of dice)"
+        print "example: dice.py --roll --max 4d8+12"
